@@ -4,7 +4,7 @@ from .forms import CollectionForm, LinkForm
 from .models import Collection, Link, Tag
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-
+from selenium import webdriver
 
 # Create your views here.
 
@@ -72,15 +72,23 @@ def link_add(request, slug=None):
     if request.POST:
     	title = request.POST.get('title')
     	link = request.POST.get('link')
-    	instance = Link.objects.create(
-    		title=title,
-    		link=link,
-    		collection=collection,
-		)
-        tags = request.POST.getlist('tags')
-        for tag in tags:
-        	instance.tags.add(tag)
-        return HttpResponseRedirect(instance.collection.get_absolute_url())
+        
+
+
+        # driver = webdriver.PhantomJS()
+        # driver.set_window_position(0, 0)
+        # driver.set_window_size(1024, 720)
+        # driver.get('http://'+link)
+        # driver.save_screenshot("./static/images/" + title + '.png')
+  #   	instance = Link.objects.create(
+  #   		title=title,
+  #   		link=link,
+  #   		collection=collection,
+		# )
+  #       tags = request.POST.getlist('tags')
+  #       for tag in tags:
+  #       	instance.tags.add(tag)
+  #       return HttpResponseRedirect(instance.collection.get_absolute_url())
     context = {
         "form": form,
     }
