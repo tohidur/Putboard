@@ -10,6 +10,7 @@ from urlparse import urlparse
 from PIL import Image
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.core import serializers
 # Create your views here.
 
 @login_required
@@ -43,13 +44,13 @@ def collection_detail(request, slug=None):
         collection = get_object_or_404(Collection, slug=slug)
     instance = Link.objects.filter(collection=collection) 
 
-    query = request.GET.get("q")
-    if query:
-        instance = instance.filter(
-            Q(title__icontains=query) |
-            Q(tags__name__icontains=query) |
-            Q(link__icontains=query)
-        ).distinct()
+    # query = request.GET.get("q")
+    # if query:
+    #     instance = instance.filter(
+    #         Q(title__icontains=query) |
+    #         Q(tags__name__icontains=query) |
+    #         Q(link__icontains=query)
+    #     ).distinct()
 
     context = {
         "collection_list": query_list,
@@ -62,7 +63,18 @@ def collection_detail(request, slug=None):
     return render(request, "board.html", context)
 
 
-
+def search_link(request, slug=None):
+    if request.GET:
+        collection = get_object_or_404(Collection, slug=slug)
+        instance = Link.objects.filter(collection=collection)
+        query = request.GET.get("q")
+        instance = instance.filter(
+            Q(title__icontains=query) |
+            Q(tags__name__icontains=query) |
+            Q(link__icontains=query)
+        ).distinct()
+        data = serializers.serialize('json', list(instance), fields=('link', 'title', 'domain', 'tags', 'img'))
+        return HttpResponse(data, content_type="application/json")
 
 
 @csrf_exempt
@@ -130,3 +142,4 @@ def link_add(request, slug=None):
             'id': instance.id,
             }
         return HttpResponse(json.dumps(data), content_type="application/json")
+
