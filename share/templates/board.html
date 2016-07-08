@@ -1,0 +1,286 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online bootcamp to start your software career full time or partime ">
+    <meta name="author" content="">
+
+    <title>Dropmark</title>
+    <link href="{% static "css/bootstrap.min.css"%}" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
+    <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+    <link href="{% static "css/home.css"%}" rel="stylesheet">
+	<style>
+		
+	</style>
+</head>
+
+<body>
+<div class="fixed-button">
+	<a href="#" data-toggle="modal" data-target="#addLink"> + </a>
+</div>
+<!-- Create Board Modal -->
+<div class="modal fade" id="createBoard" tabindex="-1" role="dialog" aria-labelledby="createBoardLabel">
+  <div class="modal-dialog add-link-dialog" role="document">
+    <div class="modal-content add-link-content">
+      <div class="modal-body">
+        <h4 class="modal-title"> Create a new board </h4>
+        <a class="close-modal" data-dismiss="modal" aria-label="Close">
+    		<span aria-hidden="true"><i class="fa fa-times"></i></span>
+    	</a>
+        <!--- Add the form for adding link -->
+        <form action="/create" id="formBoard" method="POST" class="form-add-link">{% csrf_token %}
+        	{{ form_board|crispy }}
+        	<button type="submit" class="btn btn-lg btn-add-link">
+        	 + Create Board
+        	</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Link Modal -->
+<div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="addLinkLabel">
+  <div class="modal-dialog add-link-dialog" role="document">
+    <div class="modal-content add-link-content">
+      <div class="modal-body">
+        <h4 class="modal-title"> Save an item to Droplet </h4>
+        <a class="close-modal" data-dismiss="modal" aria-label="Close">
+    		<span aria-hidden="true"><i class="fa fa-times"></i></span>
+    	</a>
+        <!--- Add the form for adding link -->
+        <form action="/{{slug}}/add" method="POST" id="formLink" class="form-add-link">{% csrf_token %}
+        	{{ form_link|crispy }}
+        	<!-- <input type="text" placeholder="Title (Optional)" class="form-input">
+        	<input type="text" placeholder="http://" class="form-input"> -->
+        	<button type="submit" class="btn btn-lg btn-add-link">
+        	 + Add
+        	</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <nav class="navbar navbar-default navbar navbar-home navbar-fixed-top header topnav" role="navigation">
+        <div class="navbar-header col-md-8 col-sm-8 col-xs-12">
+            <a href="#" class="navbar-brand topnav toggle-nav hidden-lg hidden-md" id="big-sexy"><i class="fa fa-bars"></i></a>
+            <a class="#" href="#"> <img src="img/logo_w.png" alt="logo"></a>
+            <div class="search-box pull-right col-md-9 col-sm-6 col-xs-4">
+		            <form> 
+		            	<i class="fa fa-search icon-search" aria-hidden="true"></i>
+		            	<input type="text" class="input-search" placeholder="Search Boards or Links">
+		            </form>
+	            </div>
+         </div>
+         <div class="collapse navbar-collapse col-md-4 pull-right" id="bs-example-navbar-collapse-1">
+            	<div class="">
+	                <ul class="nav navbar-nav navbar-right">
+	 					<li class="add-link"> <a href="#" data-toggle="modal" data-target="#addLink"> + </a> </li>
+	 					<li class="user-profile">
+	 						<a href="#about" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+		 						<span class="userimg"> <img src="http://lh3.googleusercontent.com/-FVMTpXXFrHQ/AAAAAAAAAAI/AAAAAAAAAAA/AOtt-yE-sLxs7nOCZVTh6fvseZ0sv8fjmg/s32-c-mo/photo.jpg"> </span>
+		 						<span class="username"> Sushant Kumar </span>
+	 						</a>
+	 						<ul class="dropdown-menu more-actions">
+							    <li><a href="#"> <i class="fa fa-share-alt" aria-hidden="true"></i> Share Board </a></li>
+							    <li><a href="#"> <i class="fa fa-link" aria-hidden="true"></i>  Add Link </a></li>
+							    <li><a href="#"> <i class="fa fa-plus" aria-hidden="true"></i> Create board</a></li>
+							    <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+							 </ul>
+	 					</li>
+	                </ul>
+	             </div>
+      	</div>
+      	<div class="clearfix"></div>
+    </nav>
+    <div id="site-wrapper" class="show-nav">
+	   <div id="site-canvas">
+	  	 <div id="site-menu">
+	  	 	<div class="boards mar-t-30">
+		  	 	<div class="board-title">
+		  	 	<h5 class="text-white"> Boards </h5>
+		  	 	</div>
+	  	 		<ul class="boards-lists">
+	  	 			{% for each in collection_list %}
+	  	 			<li> <a href="#"><i class="fa fa-folder-o"></i> {{ each.title }} </a> </li>
+	  	 			{% endfor %}
+	  	 		</ul>
+	  	 	</div>
+	  	 	<div class="create-board">
+	  	 		<a href="#" class="btn-create-board" data-toggle="modal" data-target="#createBoard"> 
+	  	 		<i class="fa fa-plus mar-r-5"></i> Create Board </a>
+	  	 	</div>
+		 </div>
+	     <div class="main-container mar-t-60">
+	    	<div class="head-title">
+		    		<h1 class="section-title"> {{ collection.title }} 
+		    		<button class="btn btn-primary inl-blk btn-tags" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+						  Tags  <i class="fa fa-caret-down" aria-hidden="true"></i>
+						</button>
+		    		</h1>
+		    		<h4 class="secondary-title"> {{ collection.description }} </h4>
+		    		<div class="seperator-line"></div>
+						<div class="collapse" id="collapseExample">
+						  <div class="section-tags">
+						   	<ul class="tags">
+							   	<li><a href="#"> All </a> </li>
+
+						   	</ul>
+						  </div>
+						</div>
+		    	<div class="clearfix"></div>
+	    	</div>
+
+	    	<div class="collections-list">
+	    		<div  class="card-lists mar-t-30">
+	    			{% for link in instance %}
+		    			<div class="col-md-3 col-sm-6 col-xs-12">
+		    				<!--- Add the link in the a tag -->
+		    				<a href="{{ link.link }}" target="_blank"> 
+				    			<div class="card">
+				    				<div class="img-container">
+				    					<img src="{{link.img}}">
+				    				</div>
+				    				<div class="details">
+				    					<div class="link-title">
+				    						<!--- Title of the link -->
+				    						{{ link.title }}
+				    					</div>
+				    				</div>
+				    				<div class="hosts">
+				    					<span><!--- Host Favicon --> <img src="http://{{link.domain}}/favicon.ico"> </span>
+				    					<span class="host-name"><!--- Host Name --> {{link.domain}} </span>
+				    					<span class="pull-right tag"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i> Startup </span>
+				    				</div>
+				    				<div class="clearfix"></div>
+				    			</div>
+			    			</a>
+			    		</div>
+		    		{% endfor %}
+	    			<div class="clearfix"></div>
+	    		</div>
+	    	</div>
+	    </div>
+	   </div>
+	 </div>  
+  </div>
+</div> 
+</body>
+<script src="{% static "js/jquery.min.js" %}" ></script>
+<script src="{% static "js/bootstrap.min.js" %}" ></script>
+<script src="{% static "js/jquery.validate.min.js" %}" ></script>
+<script>
+	$(function() {
+		if($(window).width() < 460) {
+			$("#site-wrapper").removeClass('show-nav');
+		}
+	    // Toggle Nav on Click
+	    $('.toggle-nav').click(function() {
+	        // Calling a function in case you want to expand upon this.
+	        toggleNav();
+	    });
+	});
+
+	function toggleNav() {
+	    if ($('#site-wrapper').hasClass('show-nav')) {
+	        // Do things on Nav Close
+	        $('#site-wrapper').removeClass('show-nav');
+	       	
+	    } else {
+	        // Do things on Nav Open
+	        $('#site-wrapper').addClass('show-nav');
+	       
+	    }
+
+	    //$('#site-wrapper').toggleClass('show-nav');
+	}
+</script>
+<script type="text/javascript">
+	var id = 0;
+	$('#formBoard').validate({
+		rules: {
+			title: "required"
+		},
+		messages: {
+			title: 'Please enter a Board Name',
+		}
+	})
+
+	
+		$('#formLink').validate({
+			rules: {
+				link: {
+					required: true,
+				}
+			},
+			messages: {
+				link: {
+					required: 'Url field is required',
+				}
+			},
+			submitHandler: function(form){
+				id = id+1;
+				var temp = id;
+			 	$('#addLink').modal('hide');
+			 	var link = $('#formLink #id_link').val();
+			 	var title = $('#formLink #id_title').val();
+			 	var tags = [];
+			 	tags = $('#formLink #id_tags').val();
+			 	console.log(tags);
+			 	var domain;
+			 	if (link.indexOf("://") > -1) {
+			 	    domain = link.split('/')[2];
+			 	    if (domain.startsWith('www')){
+			 	    	domain = domain.substring(4);
+			 	    }
+			 	}
+			 	else {
+			 	    domain = link.split('/')[0];
+			 	}
+			 	domain = domain.split(':')[0];
+			 	console.log(domain);
+		        var formData = {
+		            'title': title,
+		            'link': link,
+		            'tags': tags,
+		        };
+		        console.log(formData);
+		        $.ajax({
+		            type: 'POST',
+		            url: '/{{slug}}/add',
+		            data: formData,
+		            beforeSend: function(){
+		            	if (title != null) {
+		            		title = domain;
+		            	}
+						var task = '<div id="img-'+temp+'" class="col-md-3 col-sm-6 col-xs-12">'+'<a href="'+link+'" target="_blank">'+
+							'<div class="card"><div class="img-container"><img src="{% static "img/icons/wait.gif" %}"></div>'+'<div class="details"><div class="link-title">'+title+'</div></div><div class="hosts">'+
+							'<span><!--- Host Favicon --> <img src="http://'+domain+'/favicon.ico"> </span><span class="host-name">'+
+							domain+'</span><span class="pull-right tag"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i> Startup </span>'+
+							'</div><div class="clearfix"></div></div></a></div>'
+						console.log(task)
+						$('.card-lists').prepend(task);
+		            },
+		            success: function (data) {
+		                console.log(data.id);
+		                console.log(data.title);
+		                console.log(data.domain);
+		                console.log(data.image);
+		                console.log(data.tags);
+		                console.log(data.link);
+		                $('.card-lists #img-'+temp+' .img-container img').replaceWith('<img src="'+data.image+'">')
+		                $('.card-lists #img-'+temp+' .link-title').replaceWith('<div class="link-title">'+data.title+'</div>')
+		            },
+		        })
+			 }
+		})
+</script>
+</html>

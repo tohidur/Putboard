@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse, HttpResponseRedirect,Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import CollectionForm, LinkForm
@@ -5,51 +6,43 @@ from .models import Collection, Link, Tag
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from selenium import webdriver
-
+from urlparse import urlparse
+from PIL import Image
+from django.views.decorators.csrf import csrf_exempt
+import json
 # Create your views here.
 
 @login_required
 def collection_create(request):
-    form = CollectionForm(request.POST or None)
+    """
+    Gets the post requset of storinig collection form, save it,
+     and create a directory for saving images of it's links.
+
+    @param:     post resuest
+    @return     redirect to recent created collection page.
+
+    """
+    form = CollectionForm(request.POST)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
+        if not os.path.exists("./static/img/"+str(instance.id)+"/"):
+            os.makedirs("./static/img/"+str(instance.id)+"/")
         return HttpResponseRedirect(instance.get_absolute_url())
-    context = {
-        "form": form,
-    }
-    return render(request, "collection_form.html", context)
-
-
-def collection_list(request):
-    # query_list = Collection.objects.active()
-    # if request.user.is_superuser:
-    #     query_list = Post.objects.all()
-
-    query_list = Collection.objects.all()
-
-    query = request.GET.get("q")
-    if query:
-        query_list = query_list.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(user__first_name__icontains=query) |
-            Q(user__last_name__icontains=query)|
-            Q(description__icontains=query)
-        ).distinct()
-
-    context = {
-        "collection_list": query_list,
-        "title": "Collections",
-    }
-    return render(request, "collection_list.html", context)
 
 
 def collection_detail(request, slug=None):
-    collection = get_object_or_404(Collection, slug=slug)
-    instance = Link.objects.filter(collection=collection)
-    
+    """
+    """
+    form_board = CollectionForm(None)
+    form_link = LinkForm(None)
+    query_list = Collection.objects.filter(user=request.user)
+    collection = query_list.first()
+    if slug:
+        collection = get_object_or_404(Collection, slug=slug)
+    instance = Link.objects.filter(collection=collection) 
+
     query = request.GET.get("q")
     if query:
         instance = instance.filter(
@@ -58,38 +51,82 @@ def collection_detail(request, slug=None):
             Q(link__icontains=query)
         ).distinct()
 
-    print instance
     context = {
+        "collection_list": query_list,
+        "form_board": form_board,
+        "form_link": form_link,
         "instance": instance,
         "slug": collection.slug,
+        "collection": collection,
     }
-    return render(request, "collection_detail.html", context)
+    return render(request, "board.html", context)
 
 
+
+
+
+@csrf_exempt
 def link_add(request, slug=None):
+    """
+    Fetching Title and Screenshot(selenium webdriver, phantomjs) of the link & saving it,
+    Cutting the domain name from the link string. Saving the title, link, img path, domain name in database,
+    Fethcing img, compressing it and saving it back(PIL Image),
+    Attaching the tags with link.
+
+    @param request: Post request
+    @param slug:    For getting the correnponding the collection(for foreign key field of Link model and 
+                    creating a directory for the image by it's id)
+    @return:    json response to the ajax request.
+
+    """
     collection = get_object_or_404(Collection, slug=slug)
-    form = LinkForm(request.POST or None)
     if request.POST:
-    	title = request.POST.get('title')
-    	link = request.POST.get('link')
+        link = request.POST.get('link')
+        if not(link.startswith('http://') or link.startswith('https://')):
+            link = 'http://'+link
         
+        driver = webdriver.PhantomJS()
+        driver.set_window_position(0, 0)
+        driver.set_window_size(1024, 720)
+        driver.get(link)
+        
+        title = request.POST.get('title')
+        if not title:
+            title = driver.title.encode("utf-8")
 
+        img_id = Link.objects.first()
+        img_name = str(img_id.id + 1)
+        img = "/static/img/"+str(collection.id)+"/" + img_name + ".png"
+        domain = '{uri.netloc}'.format(uri=urlparse(link))
+        if domain.startswith('www'):
+            domain = domain[4:]
 
-        # driver = webdriver.PhantomJS()
-        # driver.set_window_position(0, 0)
-        # driver.set_window_size(1024, 720)
-        # driver.get('http://'+link)
-        # driver.save_screenshot("./static/images/" + title + '.png')
-  #   	instance = Link.objects.create(
-  #   		title=title,
-  #   		link=link,
-  #   		collection=collection,
-		# )
-  #       tags = request.POST.getlist('tags')
-  #       for tag in tags:
-  #       	instance.tags.add(tag)
-  #       return HttpResponseRedirect(instance.collection.get_absolute_url())
-    context = {
-        "form": form,
-    }
-    return render(request, "link_form.html", context)
+        print domain
+        print title
+        print link
+        print img
+        instance = Link.objects.create(
+            title=title,
+            link=link,
+            img= img,
+            domain=domain,
+            collection=collection,
+        )
+        driver.save_screenshot("./static/img/"+str(collection.id)+"/" + img_name + '.png')
+        im = Image.open("./static/img/"+str(collection.id)+"/" + img_name + '.png')
+        im = im.crop((0,0,1000,1000))
+        im = im.resize((300, 300), Image.ANTIALIAS)
+        im.save("./static/img/"+str(collection.id)+"/" + img_name + '.png')
+        
+        tags = request.POST.getlist('tags[]')
+        for tag in tags:
+         	instance.tags.add(tag)
+        data = {
+            'link': link,
+            'title': title,
+            'tags': tags,
+            'image': img,
+            'domain': domain,
+            'id': instance.id,
+            }
+        return HttpResponse(json.dumps(data), content_type="application/json")

@@ -6,6 +6,7 @@ from django.contrib.auth import (
 )
 from django.shortcuts import render, redirect
 from .forms import UserLoginForm, UserRegistrationForm
+from collection.models import Collection
 
 
 def login_view(request):
@@ -19,7 +20,9 @@ def login_view(request):
         login(request, user)
         if next_request:
             return redirect(next_request)
-        return redirect('/')
+        collection = Collection.objects.filter(user=request.user)
+        link = collection.first().slug
+        return redirect("/"+link+'/')
     return render(request, 'form.html', {'form': form, 'title': title})
 
 
@@ -37,7 +40,9 @@ def register_view(request):
         login(request, new_user)
         if next_request:
             return redirect(next_request)
-        return redirect('/')
+        collection = Collection.objects.filter(user=request.user)
+        link = collection.first().slug
+        return redirect("/"+link+"/")
 
     context = {
         'form': form,

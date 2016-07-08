@@ -52,20 +52,22 @@ class Tag(models.Model):
 
 
 class Link(models.Model):
-	title = models.CharField(max_length=120)
-	link = models.TextField()
-	collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
-	tags = models.ManyToManyField(Tag)
-	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    title = models.CharField(max_length=120)
+    link = models.TextField()
+    domain = models.CharField(max_length=300)
+    img = models.CharField(max_length=300)
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
-	def __unicode__(self):
-		return self.title
+    def __unicode__(self):
+    	return self.title
 
-	def __str__(self):
-		return self.title
+    def __str__(self):
+    	return self.title
 
-	class Meta:
-		ordering = ["-timestamp"]
+    class Meta:
+	   ordering = ["-timestamp"]
 
 
 def create_slug(instance, new_slug=None):
