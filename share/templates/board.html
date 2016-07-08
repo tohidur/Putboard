@@ -76,9 +76,10 @@
             <div class="search-box pull-right col-md-9 col-sm-6 col-xs-4">
 		            <form action="/{{slug}}/search" id="searchForm">
 		            	<i class="fa fa-search icon-search" aria-hidden="true"></i>
-		            	<input type="text" class="input-search" placeholder="Search Boards or Links" name="q" value="{{request.GET.q}}">
-		            	<input type="submit" id="searchSubmit" value='search'>
+		            	<input type="text" class="input-search" placeholder="Search Boards or Links" name="q" value="{{request.GET.q}}" autocomplete="off">
 		            </form>
+		            <div id='search-lists'>
+		            </div>
 	            </div>
          </div>
          <div class="collapse navbar-collapse col-md-4 pull-right" id="bs-example-navbar-collapse-1">
@@ -158,8 +159,8 @@
 				    				</div>
 				    				<div class="hosts">
 				    					<span><!--- Host Favicon --> <img src="http://{{link.domain}}/favicon.ico"> </span>
-				    					<span class="host-name"><!--- Host Name --> {{link.domain}} </span>
-				    					<span class="pull-right tag"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i> Startup </span>
+				    					<span class="host-name truncate-domain"><!--- Host Name --> {{link.domain|truncatechars:23}} </span>
+				    					<span class="pull-right tag"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i></span>
 				    				</div>
 				    				<div class="clearfix"></div>
 				    			</div>

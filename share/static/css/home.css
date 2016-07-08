@@ -494,3 +494,10 @@
 		border-bottom: 3px solid #ff5252;
 		padding-bottom: 12px;
 	}*/
+
+/*.truncate{
+  width: 18ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}*/
