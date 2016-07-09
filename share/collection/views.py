@@ -11,6 +11,7 @@ from PIL import Image
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core import serializers
+from django.http import HttpResponseForbidden
 # Create your views here.
 
 @login_required
@@ -38,17 +39,21 @@ def collection_detail(request, slug=None, tag=None):
     """
     form_board = CollectionForm(None)
     form_link = LinkForm(None)
-    query_list = Collection.objects.filter(user=request.user)
-    collection = query_list.first()
+    query_list = Collection.objects.filter(slug=slug)
+    if request.user.is_authenticated():
+        query_list = Collection.objects.filter(user=request.user)
     if slug:
         collection = get_object_or_404(Collection, slug=slug)
-    instance = Link.objects.filter(collection=collection) 
+    instance = Link.objects.filter(collection=collection)
+
+    if collection.privacy==True and collection.user != request.user:
+        return HttpResponseForbidden()
+
     tags = []
     for ins in instance:
         for x in ins.tags.all():
             if x not in tags:
                 tags.append(x)
-
     if tag:
         instance = instance.filter(tags__name__icontains=tag)
     context = {

@@ -58,7 +58,7 @@ $(document).ready(function(){
 	            	}
 					var task = '<div id="img-'+temp+'" class="col-md-3 col-sm-6 col-xs-12">'+'<a href="'+link+'" target="_blank">'+
 						'<div class="card"><div class="img-container"><img src="'+wait+'"></div>'+'<div class="details"><div class="link-title">'+title+'</div></div><div class="hosts">'+
-						'<span><!--- Host Favicon --> <img src="http://'+domain+'/favicon.ico"> </span><span class="host-name">'+
+						'<span><object data="http://'+domain+'/favicon.ico" class="favicon-object" type="image/png"><img src="http://facebook.com/favicon.ico"></object></span><span class="host-name">'+
 						domain+'</span><span class="pull-right tag"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i> </span>'+
 						'</div><div class="clearfix"></div></div></a></div>'
 					console.log(task)
@@ -103,9 +103,8 @@ $(document).ready(function(){
 				success: function(data) {
 					$('#search-lists').empty();
 					$.each(data, function(index){
-						console.log(data[index].fields.title);
-						$('#search-lists').prepend('<a href="'+data[index].fields.link+'" target="_blank"><p style="background-color: black; color: white;">'+
-							data[index].fields.title+'</p></a>');
+						console.log(data[index].fields);
+						getSearchData(data[index].fields);
 					})
 				}
 			})
@@ -114,6 +113,29 @@ $(document).ready(function(){
 			$('#search-lists').empty();
 		}
 	}
+
+	function getSearchData(data) {
+		var markup = '<a href="'+data.link+'" target="_blank">';
+			markup += '<div class="title">' + data.title + '</div>';
+			markup += '<div class="hosts mar-t-5">' + data.domain + '</div>';
+			markup += '</a>';
+
+		return $('#search-lists').prepend(markup);
+	}
+
+	$('#editBoard').on('click', function(){
+		$.ajax({
+			type: 'GET',
+			url: '/'+slug+'/edit',
+			success: function(data) {
+				$('#search-lists').empty();
+				$.each(data, function(index){
+					console.log(data[index].fields);
+					getSearchData(data[index].fields);
+				})
+			}
+		})
+	})
 
 })
 

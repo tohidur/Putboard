@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Online bootcamp to start your software career full time or partime ">
     <meta name="author" content="">
+    <meta name="twitter:image:src" content="https://www.dreamteamfc.com/c/s3/dreamteamfc-prod/uploads/2016/06/Lionel-Messi.jpg">
+	<meta name="twitter:domain" content="YourDomain.com">
 
-    <title>Dropmark</title>
+    <title>Putboard</title>
     <link href="{% static "css/bootstrap.min.css"%}" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
     <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
@@ -48,6 +50,29 @@
   </div>
 </div>
 
+<!-- Share Board Modal -->
+<div class="modal fade" id="shareBoard" tabindex="-1" role="dialog" aria-labelledby="shareBoardLabel">
+  <div class="modal-dialog add-link-dialog" role="document">
+    <div class="modal-content add-link-content">
+      <div class="modal-body">
+        <h4 class="modal-title"> Share your board </h4>
+        <a class="close-modal" data-dismiss="modal" aria-label="Close">
+    		<span aria-hidden="true"><i class="fa fa-times"></i></span>
+    	</a>
+        <form action="" class="form-add-link">
+        	<input type="text" placeholder="Board Name" class="form-input" value="{{request.build_absolute_uri}}">
+        </form>
+        <div class="mar-t-20 text-center">
+        	<div class="sep-share"> or </div>
+	        <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}" class="mar-r-10 share-icons" target="_blank"><i class="fa fa-facebook"></i></a>
+	        <a href="https://twitter.com/share?status={{requeset.build_absolute_uri}}" class="mar-r-10 share-icons" target="_blank"><i class="fa fa-twitter"></i></a>
+	        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title=B%20&summary=%20&source={{request.build_absolute_uri}}" class="share-icons" target="_blank"><i class="fa fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Add Link Modal -->
 <div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="addLinkLabel">
   <div class="modal-dialog add-link-dialog" role="document">
@@ -75,7 +100,7 @@
     <nav class="navbar navbar-default navbar navbar-home navbar-fixed-top header topnav" role="navigation">
         <div class="navbar-header col-md-8 col-sm-8 col-xs-12">
             <a href="#" class="navbar-brand topnav toggle-nav hidden-lg hidden-md" id="big-sexy"><i class="fa fa-bars"></i></a>
-            <a class="#" href="#"> <img src="img/logo_w.png" alt="logo"></a>
+            <a class="#" href="#"> <img src="{% static 'img/logo_w.png' %}" class="logo" alt="Putboard logo"></a>
             <div class="search-box pull-right col-md-9 col-sm-6 col-xs-4">
 		            <form action="/{{slug}}/search" id="searchForm">
 		            	<i class="fa fa-search icon-search" aria-hidden="true"></i>
@@ -91,14 +116,14 @@
 	 					<li class="add-link"> <a href="#" data-toggle="modal" data-target="#addLink"> + </a> </li>
 	 					<li class="user-profile">
 	 						<a href="#about" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-		 						<span class="userimg"> <img src="http://lh3.googleusercontent.com/-FVMTpXXFrHQ/AAAAAAAAAAI/AAAAAAAAAAA/AOtt-yE-sLxs7nOCZVTh6fvseZ0sv8fjmg/s32-c-mo/photo.jpg"> </span>
-		 						<span class="username"> Sushant Kumar </span>
+		 						<!-- <span class="userimg"> <img src="http://lh3.googleusercontent.com/-FVMTpXXFrHQ/AAAAAAAAAAI/AAAAAAAAAAA/AOtt-yE-sLxs7nOCZVTh6fvseZ0sv8fjmg/s32-c-mo/photo.jpg"> </span> -->
+		 						<span class="username">Sushant Kumar <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 	 						</a>
 	 						<ul class="dropdown-menu more-actions">
-							    <li><a href="#"> <i class="fa fa-share-alt" aria-hidden="true"></i> Share Board </a></li>
-							    <li><a href="#"> <i class="fa fa-link" aria-hidden="true"></i>  Add Link </a></li>
-							    <li><a href="#"> <i class="fa fa-plus" aria-hidden="true"></i> Create board</a></li>
-							    <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+							    <li><a href=""> <i class="fa fa-share-alt" aria-hidden="true"></i> Share Board </a></li>
+							    <li><a href="" class="btn-create-board" data-toggle="modal" data-target="#addLink"><i class="fa fa-link" aria-hidden="true"></i>  Add Link </a></li>
+							    <li><a href="" class="btn-create-board" data-toggle="modal" data-target="#createBoard"><i class="fa fa-plus" aria-hidden="true"></i> Create board</a></li>
+							    <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
 							 </ul>
 	 					</li>
 	                </ul>
@@ -120,30 +145,40 @@
 	  	 		</ul>
 	  	 	</div>
 	  	 	<div class="create-board">
-	  	 		<a href="#" class="btn-create-board" data-toggle="modal" data-target="#createBoard"> 
+	  	 		<a href="" class="btn-create-board" data-toggle="modal" data-target="#createBoard"> 
 	  	 		<i class="fa fa-plus mar-r-5"></i> Create Board </a>
 	  	 	</div>
 		 </div>
 	     <div class="main-container mar-t-60">
 	    	<div class="head-title">
+	    		<div class="col-md-9 col-sm-12">
 		    		<h1 class="section-title"> {{ collection.title }} 
 		    		<button class="btn btn-primary inl-blk btn-tags" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 						  Tags  <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</button>
 		    		</h1>
 		    		<h4 class="secondary-title"> {{ collection.description }} </h4>
-		    		<div class="seperator-line"></div>
-						<div class="collapse" id="collapseExample">
-						  <div class="section-tags">
-						   	<ul class="tags">
-							   	<li><a href="/{{ slug }}"> All </a> </li>
-							   	{% for tag in tags %}
-								   	<li><a href="/{{slug}}/{{tag.name}}"> {{tag.name}} </a> </li>
-							   	{% endfor %}
-						   	</ul>
-						  </div>
-						</div>
+					<div class="collapse" id="collapseExample">
+					  <div class="section-tags">
+					   	<ul class="tags">
+						   	<li><a href="/{{ slug }}"> All </a> </li>
+						   	{% for tag in tags %}
+							   	<li><a href="/{{slug}}/{{tag.name}}"> {{tag.name}} </a> </li>
+						   	{% endfor %}
+					   	</ul>
+					  </div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-12 mar-t-20">
+					<button class="btn btn-lg btn-actions mar-r-10" data-toggle="modal" id="#editBoard">
+						<i class="fa fa-pencil mar-r-5"></i> Edit 
+					</button>
+					<button class="btn btn-lg btn-actions" data-toggle="modal" data-target="#shareBoard">
+						<i class="fa fa-share-alt mar-r-5"></i> Share 
+					</button>
+				</div>
 		    	<div class="clearfix"></div>
+		    	<div class="seperator-line"></div>
 	    	</div>
 
 	    	<div class="collections-list">
@@ -159,13 +194,17 @@
 				    				<div class="details">
 				    					<div class="link-title">
 				    						<!--- Title of the link -->
-				    						{{ link.title }}
+				    						{{ link.title|truncatechars:45 }}
 				    					</div>
 				    				</div>
 				    				<div class="hosts">
-				    					<span><!--- Host Favicon --> <img src="http://{{link.domain}}/favicon.ico"> </span>
-				    					<span class="host-name truncate-domain"><!--- Host Name --> {{link.domain|truncatechars:23}} </span>
-				    					<span class="pull-right tag" data-toogle="tooltip" data-placement="top" data-trigger="manual" title="{%for tag in link.tags.all%} #{{tag.name}}{%endfor%}"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i></span>
+				    					<span> 
+				    						<object data="http://{{link.domain}}/favicon.ico" class="favicon-object" type="image/png">
+				    						 	<img src="http://facebook.com/favicon.ico" class="favicon-img">
+				    						</object>
+				    					</span>
+				    					<span class="host-name truncate-domain"><!--- Host Name --> {{link.domain|truncatechars:18}} </span>
+				    					<span class="pull-right tag hidden-sm hidden-xs " data-toogle="tooltip" data-placement="top" data-trigger="manual" title="{%for tag in link.tags.all%} #{{tag.name}}{%endfor%}"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i></span>
 				    				</div>
 				    				<div class="clearfix"></div>
 				    			</div>
@@ -212,7 +251,7 @@
 	}
 
 	var slug = '{{slug}}';
-	var wait = '{% static "img/icons/wait.gif" %}';
+	var wait = '{% static "img/icons/wait1.gif" %}';
 	$('.selectmultiple').select2({
 		placeholder: "Attach a Tag",
 		dropdownAutoWidth: true,

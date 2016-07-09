@@ -10,7 +10,8 @@ User = get_user_model()
 
 
 class UserLoginForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(label='Email')
+    #username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
     def clean(self, *args, **kwargs):
@@ -34,25 +35,27 @@ class UserLoginForm(forms.Form):
 
 
 class UserRegistrationForm(forms.ModelForm):
-    email2 = forms.EmailField(label='Confirm Email')
+    username = forms.EmailField(label='Email')
+    first_name = forms.CharField(label='Name')
+    #email2 = forms.EmailField(label='Confirm Email')
     password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = [
-            'username',
             'first_name',
-            'last_name',
-            'email',
-            'email2',
+            'username',
+            #'last_name',
+            #'email',
+            #'email2',
             'password',
         ]
 
     def clean_email2(self):
-        email = self.cleaned_data.get('email')
-        email2 = self.cleaned_data.get('email2')
-        if email != email2:
-            raise forms.ValidationError('Email must match')
+        email = self.cleaned_data.get('username')
+        # email2 = self.cleaned_data.get('email2')
+        # if email != email2:
+        #     raise forms.ValidationError('Email must match')
         email_qs = User.objects.filter(email=email)
         if email_qs.exists():
             raise forms.ValidationError('This email already been registered')

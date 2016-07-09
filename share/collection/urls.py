@@ -13,8 +13,8 @@ from .views import (
 
 urlpatterns = [
     # url(r'^$', collection_list, name='list'),
-    url(r'^create$', collection_create, name="collection_create"),
-    url(r'^(?P<slug>[\w-]+)/add$', link_add, name='link_add'),
+    url(r'^create$', collection_create, name="create"),
+    url(r'^(?P<slug>[\w-]+)/add$', link_add, name='add'),
     url(r'^(?P<slug>[\w-]+)(?:/(?P<tag>[\w-]+))?/$', collection_detail, name='detail'),
     url(r'^(?P<slug>[\w-]+)/search$', search_link, name="search_link"),
     # url(r'^(?P<slug>[\w-]+)/edit$', post_update, name='update'),

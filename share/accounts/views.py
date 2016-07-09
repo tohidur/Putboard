@@ -7,11 +7,12 @@ from django.contrib.auth import (
 from django.shortcuts import render, redirect
 from .forms import UserLoginForm, UserRegistrationForm
 from collection.models import Collection
+from collection.forms import CollectionForm
+from django.http import HttpResponse
 
 
 def login_view(request):
     next_request = request.GET.get('next')
-    title = "Login"
     form = UserLoginForm(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data.get('username')
@@ -23,12 +24,15 @@ def login_view(request):
         collection = Collection.objects.filter(user=request.user)
         link = collection.first().slug
         return redirect("/"+link+'/')
-    return render(request, 'form.html', {'form': form, 'title': title})
+    if request.user.is_authenticated():
+        collection = Collection.objects.filter(user=request.user)
+        return redirect('/'+collection.first().slug+'/')
+    return render(request, 'login.html', {'form': form})
 
 
 def register_view(request):
     next_request = request.GET.get('next')
-    title = 'Register'
+    form_board = CollectionForm(None)
     form = UserRegistrationForm(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
@@ -40,18 +44,20 @@ def register_view(request):
         login(request, new_user)
         if next_request:
             return redirect(next_request)
+        return render(request, 'create_board.html', {'form': form_board})
+
+    if request.user.is_authenticated():
         collection = Collection.objects.filter(user=request.user)
-        link = collection.first().slug
-        return redirect("/"+link+"/")
+        return redirect('/'+collection.first().slug+'/')
 
     context = {
         'form': form,
-        'title': title,
     }
 
-    return render(request, 'form.html', context)
+    return render(request, 'signup.html', context)
 
 
 def logout_view(request):
     logout(request)
-    return redirect('/')
+    return HttpResponse('<p>Working</p>')
+    # return redirect('/')
