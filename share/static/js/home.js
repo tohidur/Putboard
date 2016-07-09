@@ -101,6 +101,7 @@ $(document).ready(function(){
 				url: '/'+slug+'/search',
 				data: formData,
 				success: function(data) {
+					$('#search-lists').empty();
 					$.each(data, function(index){
 						console.log(data[index].fields.title);
 						$('#search-lists').prepend('<a href="'+data[index].fields.link+'" target="_blank"><p style="background-color: black; color: white;">'+

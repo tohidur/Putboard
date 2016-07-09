@@ -33,7 +33,7 @@ def collection_create(request):
         return HttpResponseRedirect(instance.get_absolute_url())
 
 
-def collection_detail(request, slug=None):
+def collection_detail(request, slug=None, tag=None):
     """
     """
     form_board = CollectionForm(None)
@@ -43,15 +43,14 @@ def collection_detail(request, slug=None):
     if slug:
         collection = get_object_or_404(Collection, slug=slug)
     instance = Link.objects.filter(collection=collection) 
+    tags = []
+    for ins in instance:
+        for x in ins.tags.all():
+            if x not in tags:
+                tags.append(x)
 
-    # query = request.GET.get("q")
-    # if query:
-    #     instance = instance.filter(
-    #         Q(title__icontains=query) |
-    #         Q(tags__name__icontains=query) |
-    #         Q(link__icontains=query)
-    #     ).distinct()
-
+    if tag:
+        instance = instance.filter(tags__name__icontains=tag)
     context = {
         "collection_list": query_list,
         "form_board": form_board,
@@ -59,6 +58,7 @@ def collection_detail(request, slug=None):
         "instance": instance,
         "slug": collection.slug,
         "collection": collection,
+        "tags": tags,
     }
     return render(request, "board.html", context)
 
@@ -113,10 +113,6 @@ def link_add(request, slug=None):
         if domain.startswith('www'):
             domain = domain[4:]
 
-        print domain
-        print title
-        print link
-        print img
         instance = Link.objects.create(
             title=title,
             link=link,
@@ -132,7 +128,9 @@ def link_add(request, slug=None):
         
         tags = request.POST.getlist('tags[]')
         for tag in tags:
-         	instance.tags.add(tag)
+            x, created = Tag.objects.get_or_create(name = tag)
+            instance.tags.add(x)
+        
         data = {
             'link': link,
             'title': title,
@@ -142,4 +140,3 @@ def link_add(request, slug=None):
             'id': instance.id,
             }
         return HttpResponse(json.dumps(data), content_type="application/json")
-

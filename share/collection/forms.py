@@ -1,5 +1,5 @@
 from django import forms
-from .models import Collection, Link
+from .models import Collection, Link, Tag
 
 
 class CollectionForm(forms.ModelForm):
@@ -18,7 +18,8 @@ class CollectionForm(forms.ModelForm):
 
 class LinkForm(forms.ModelForm):
     title = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Title (Optional)'}))
-    link = forms.CharField(label="", widget=forms.TextInput(attrs={'placeholder': 'http://'}), required=True)
+    link = forms.URLField(label="", widget=forms.TextInput(attrs={'placeholder': 'http://'}), required=True)
+    tags = forms.ModelMultipleChoiceField(label="", queryset=Tag.objects.all())
     class Meta:
         model = Link
         fields = [
