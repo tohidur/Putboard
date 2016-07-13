@@ -57,7 +57,7 @@ $(document).ready(function(){
 	            		title = domain;
 	            	}
 					var task = '<div id="img-'+temp+'" class="col-md-3 col-sm-6 col-xs-12">'+'<a href="'+link+'" target="_blank">'+
-						'<div class="card"><div class="img-container"><img src="'+wait+'"></div>'+'<div class="details"><div class="link-title">'+title+'</div></div><div class="hosts">'+
+						'<div class="card"><div class="img-container"><img src="https://www.gapminder.org/GapminderMedia/wp-uploads/images_loaders/ajax-loader.gif"></div>'+'<div class="details"><div class="link-title">'+title+'</div></div><div class="hosts">'+
 						'<span><object data="http://'+domain+'/favicon.ico" class="favicon-object" type="image/png"><img src="http://facebook.com/favicon.ico"></object></span><span class="host-name">'+
 						domain+'</span><span class="pull-right tag"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i> </span>'+
 						'</div><div class="clearfix"></div></div></a></div>'

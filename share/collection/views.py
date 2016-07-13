@@ -97,12 +97,13 @@ def link_add(request, slug=None):
 
     """
     collection = get_object_or_404(Collection, slug=slug)
+    print ('Working')
     if request.POST:
         link = request.POST.get('link')
         if not(link.startswith('http://') or link.startswith('https://')):
             link = 'http://'+link
         
-        driver = webdriver.PhantomJS()
+        driver = webdriver.PhantomJS(service_args=['--ignore-ssl-errors=true','--ssl-protocol=any'])
         driver.set_window_position(0, 0)
         driver.set_window_size(1024, 720)
         driver.get(link)
@@ -113,7 +114,7 @@ def link_add(request, slug=None):
 
         img_id = Link.objects.first()
         img_name = str(img_id.id + 1)
-        img = "/static/img/"+str(collection.id)+"/" + img_name + ".png"
+        img = "/static/img/images/" + img_name + ".png"
         domain = '{uri.netloc}'.format(uri=urlparse(link))
         if domain.startswith('www'):
             domain = domain[4:]
@@ -125,11 +126,11 @@ def link_add(request, slug=None):
             domain=domain,
             collection=collection,
         )
-        driver.save_screenshot("./static/img/"+str(collection.id)+"/" + img_name + '.png')
-        im = Image.open("./static/img/"+str(collection.id)+"/" + img_name + '.png')
+        driver.save_screenshot("./static/img/images/" + img_name + '.png')
+        im = Image.open("./static/img/images/" + img_name + '.png')
         im = im.crop((0,0,1000,1000))
         im = im.resize((300, 300), Image.ANTIALIAS)
-        im.save("./static/img/"+str(collection.id)+"/" + img_name + '.png')
+        im.save("./static/img/images/" + img_name + '.png')
         
         tags = request.POST.getlist('tags[]')
         for tag in tags:
