@@ -7,12 +7,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Online bootcamp to start your software career full time or partime ">
-    <meta name="author" content="">
-    <meta name="twitter:image:src" content="https://www.dreamteamfc.com/c/s3/dreamteamfc-prod/uploads/2016/06/Lionel-Messi.jpg">
-	<meta name="twitter:domain" content="YourDomain.com">
+    <meta name="description" content="{{collection.description}}">
+    <meta name="author" content="{{collection.user.first_name}}">
+    <meta property="og:image" content="http://putboard.com{{instance.first.img}}"/>
+    <!-- <meta name="twitter:image:src" content="https://www.dreamteamfc.com/c/s3/dreamteamfc-prod/uploads/2016/06/Lionel-Messi.jpg">
+	<meta name="twitter:domain" content="YourDomain.com"> -->
 
     <title>Putboard</title>
+    <link href="{% static "img/icons/favicon.ico"%}" rel="shortcut icon">
     <link href="{% static "css/bootstrap.min.css"%}" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
     <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
@@ -26,9 +28,12 @@
 </head>
 
 <body>
+{%if request.user.is_authenticated%}
 <div class="fixed-button">
 	<a href="#" data-toggle="modal" data-target="#addLink"> + </a>
 </div>
+{%endif%}
+
 <!-- Create Board Modal -->
 <div class="modal fade" id="createBoard" tabindex="-1" role="dialog" aria-labelledby="createBoardLabel">
   <div class="modal-dialog add-link-dialog" role="document">
@@ -43,6 +48,27 @@
         	{{ form_board|crispy }}
         	<button type="submit" class="btn btn-lg btn-add-link">
         	 + Create Board
+        	</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Board Modal -->
+<div class="modal fade" id="editBoard" tabindex="-1" role="dialog" aria-labelledby="createBoardLabel">
+  <div class="modal-dialog add-link-dialog" role="document">
+    <div class="modal-content add-link-content">
+      <div class="modal-body">
+        <h4 class="modal-title"> Edit board </h4>
+        <a class="close-modal" data-dismiss="modal" aria-label="Close">
+    		<span aria-hidden="true"><i class="fa fa-times"></i></span>
+    	</a>
+        <!--- Add the form for adding link -->
+        <form action="/{{slug}}/edit" id="formBoard" method="POST" class="form-add-link">{% csrf_token %}
+        	{{ form_edit_board|crispy }}
+        	<button type="submit" class="btn btn-lg btn-add-link">
+        	  Edit
         	</button>
         </form>
       </div>
@@ -65,8 +91,8 @@
         <div class="mar-t-20 text-center">
         	<div class="sep-share"> or </div>
 	        <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}" class="mar-r-10 share-icons" target="_blank"><i class="fa fa-facebook"></i></a>
-	        <a href="https://twitter.com/share?status={{requeset.build_absolute_uri}}" class="mar-r-10 share-icons" target="_blank"><i class="fa fa-twitter"></i></a>
-	        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title=B%20&summary=%20&source={{request.build_absolute_uri}}" class="share-icons" target="_blank"><i class="fa fa-linkedin"></i></a>
+	        <!-- <a href="https://twitter.com/share?status={{requeset.build_absolute_uri}}" class="mar-r-10 share-icons" target="_blank"><i class="fa fa-twitter"></i></a>
+	        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title=B%20&summary=%20&source={{request.build_absolute_uri}}" class="share-icons" target="_blank"><i class="fa fa-linkedin"></i></a> -->
         </div>
       </div>
     </div>
@@ -99,8 +125,8 @@
 
     <nav class="navbar navbar-default navbar navbar-home navbar-fixed-top header topnav" role="navigation">
         <div class="navbar-header col-md-8 col-sm-8 col-xs-12">
-            <a href="#" class="navbar-brand topnav toggle-nav hidden-lg hidden-md" id="big-sexy"><i class="fa fa-bars"></i></a>
-            <a class="#" href="#"> <img src="{% static 'img/logo_w.png' %}" class="logo" alt="Putboard logo"></a>
+            <a href="" class="navbar-brand topnav toggle-nav hidden-lg hidden-md" id="big-sexy"><i class="fa fa-bars"></i></a>
+            <a class="#" href="/"> <img src="{% static 'img/logo_w.png' %}" class="logo" alt="Putboard logo"></a>
             <div class="search-box pull-right col-md-9 col-sm-6 col-xs-4">
 		            <form action="/{{slug}}/search" id="searchForm">
 		            	<i class="fa fa-search icon-search" aria-hidden="true"></i>
@@ -110,25 +136,29 @@
 		            </div>
 	            </div>
          </div>
+         {% if request.user.is_authenticated %}
          <div class="collapse navbar-collapse col-md-4 pull-right" id="bs-example-navbar-collapse-1">
             	<div class="">
 	                <ul class="nav navbar-nav navbar-right">
+	                	{% if collection.user == request.user %}
 	 					<li class="add-link"> <a href="#" data-toggle="modal" data-target="#addLink"> + </a> </li>
+	 					{% endif %}
 	 					<li class="user-profile">
 	 						<a href="#about" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
 		 						<!-- <span class="userimg"> <img src="http://lh3.googleusercontent.com/-FVMTpXXFrHQ/AAAAAAAAAAI/AAAAAAAAAAA/AOtt-yE-sLxs7nOCZVTh6fvseZ0sv8fjmg/s32-c-mo/photo.jpg"> </span> -->
-		 						<span class="username">Sushant Kumar <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+		 						<span class="username">{{request.user.first_name}} <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 	 						</a>
 	 						<ul class="dropdown-menu more-actions">
-							    <li><a href=""> <i class="fa fa-share-alt" aria-hidden="true"></i> Share Board </a></li>
-							    <li><a href="" class="btn-create-board" data-toggle="modal" data-target="#addLink"><i class="fa fa-link" aria-hidden="true"></i>  Add Link </a></li>
+							    <!-- <li><a href=""> <i class="fa fa-share-alt" aria-hidden="true"></i> Share Board </a></li>
+							    <li><a href="" class="btn-create-board" data-toggle="modal" data-target="#addLink"><i class="fa fa-link" aria-hidden="true"></i>  Add Link </a></li> -->
 							    <li><a href="" class="btn-create-board" data-toggle="modal" data-target="#createBoard"><i class="fa fa-plus" aria-hidden="true"></i> Create board</a></li>
 							    <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
 							 </ul>
 	 					</li>
 	                </ul>
 	             </div>
-      	</div>
+      		</div>
+            {%endif%}
       	<div class="clearfix"></div>
     </nav>
     <div id="site-wrapper" class="show-nav">
@@ -145,7 +175,7 @@
 	  	 		</ul>
 	  	 	</div>
 	  	 	<div class="create-board">
-	  	 		<a href="" class="btn-create-board" data-toggle="modal" data-target="#createBoard"> 
+	  	 		<a class="btn-create-board" {% if request.user.is_authenticated %} href="" data-toggle="modal" data-target="#createBoard"{%else%} href=/login {%endif%}> 
 	  	 		<i class="fa fa-plus mar-r-5"></i> Create Board </a>
 	  	 	</div>
 		 </div>
@@ -170,10 +200,12 @@
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-12 mar-t-20">
-					<button class="btn btn-lg btn-actions mar-r-10" data-toggle="modal" id="#editBoard">
+					{% if collection.user == request.user %}
+					<button class="btn btn-lg btn-actions mar-r-10 edit-board pull-right" data-toggle="modal" data-target="#editBoard">
 						<i class="fa fa-pencil mar-r-5"></i> Edit 
 					</button>
-					<button class="btn btn-lg btn-actions" data-toggle="modal" data-target="#shareBoard">
+					{%endif%}
+					<button class="btn btn-lg btn-actions pull-right" data-toggle="modal" data-target="#shareBoard">
 						<i class="fa fa-share-alt mar-r-5"></i> Share 
 					</button>
 				</div>
@@ -200,7 +232,7 @@
 				    				<div class="hosts">
 				    					<span> 
 				    						<object data="http://{{link.domain}}/favicon.ico" class="favicon-object" type="image/png">
-				    						 	<img src="http://facebook.com/favicon.ico" class="favicon-img">
+				    						 	<img src='{% static "img/icons/favicon.ico" %}' class="favicon-img">
 				    						</object>
 				    					</span>
 				    					<span class="host-name truncate-domain"><!--- Host Name --> {{link.domain|truncatechars:18}} </span>
@@ -252,6 +284,10 @@
 
 	var slug = '{{slug}}';
 	var wait = '{% static "img/icons/wait1.gif" %}';
+	var favicon = '{% static "img/icons/favicon.ico" %}';
+	var board_title = '{{collection.title}}';
+	var board_description = '{{collection.description}}';
+	var board_privacy = '{{collection.privacy}}'
 	$('.selectmultiple').select2({
 		placeholder: "Attach a Tag",
 		dropdownAutoWidth: true,

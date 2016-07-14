@@ -1,13 +1,13 @@
 from django.conf.urls import url
 
 from .views import (
-    # collection_list,
     collection_create,
     collection_detail,
-    # collection_update,
+    collection_update,
     # collection_delete,
     link_add,
     search_link,
+    home,
     # likn_delete,
 )
 
@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^(?P<slug>[\w-]+)/add$', link_add, name='add'),
     url(r'^(?P<slug>[\w-]+)(?:/(?P<tag>[\w-]+))?/$', collection_detail, name='detail'),
     url(r'^(?P<slug>[\w-]+)/search$', search_link, name="search_link"),
-    # url(r'^(?P<slug>[\w-]+)/edit$', post_update, name='update'),
-    # url(r'^(?P<slug>[\w-]+)/delete$', post_delete),
+    url(r'^(?P<slug>[\w-]+)/edit$', collection_update, name='update'),
+    url(r'^$', home, name='home'),
+    # url(r'^(?P<slug>[\w-]+)/delete$', collection_delete, name='collection_delete'),
 ]

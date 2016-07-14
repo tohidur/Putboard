@@ -1,5 +1,12 @@
-PhantomJS is launching GhostDriver...
-[INFO  - 2016-07-13T13:48:45.699Z] GhostDriver - Main - running on port 41415
-[INFO  - 2016-07-13T13:48:46.638Z] Session [8548d7b0-4900-11e6-92f0-9948255880fd] - CONSTRUCTOR - Desired Capabilities: {"platform":"ANY","browserName":"phantomjs","version":"","javascriptEnabled":true}
-[INFO  - 2016-07-13T13:48:46.638Z] Session [8548d7b0-4900-11e6-92f0-9948255880fd] - CONSTRUCTOR - Negotiated Capabilities: {"browserName":"phantomjs","version":"1.9.0","driverName":"ghostdriver","driverVersion":"1.0.3","platform":"linux-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
-[INFO  - 2016-07-13T13:48:46.638Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 8548d7b0-4900-11e6-92f0-9948255880fd
+[INFO  - 2016-07-14T13:29:45.886Z] GhostDriver - Main - running on port 54159
+[INFO  - 2016-07-14T13:29:48.836Z] Session [0981f450-49c7-11e6-a9d1-a561b2a9a610] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2016-07-14T13:29:48.836Z] Session [0981f450-49c7-11e6-a9d1-a561b2a9a610] - page.customHeaders:  - {}
+[INFO  - 2016-07-14T13:29:48.836Z] Session [0981f450-49c7-11e6-a9d1-a561b2a9a610] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"windows-7-32bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2016-07-14T13:29:48.836Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 0981f450-49c7-11e6-a9d1-a561b2a9a610
+[INFO  - 2016-07-14T13:34:46.145Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2016-07-14T13:39:46.158Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2016-07-14T13:44:46.159Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2016-07-14T13:49:46.160Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2016-07-14T13:54:46.160Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2016-07-14T13:59:46.163Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2016-07-14T14:04:46.204Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW

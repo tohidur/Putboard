@@ -29,8 +29,8 @@ def collection_create(request):
         instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
-        if not os.path.exists("./static/img/"+str(instance.id)+"/"):
-            os.makedirs("./static/img/"+str(instance.id)+"/")
+        # if not os.path.exists("./static/img/"+str(instance.id)+"/"):
+        #     os.makedirs("./static/img/"+str(instance.id)+"/")
         return HttpResponseRedirect(instance.get_absolute_url())
 
 
@@ -45,9 +45,11 @@ def collection_detail(request, slug=None, tag=None):
     if slug:
         collection = get_object_or_404(Collection, slug=slug)
     instance = Link.objects.filter(collection=collection)
-
+    form_edit_board = CollectionForm(instance=collection)
     if collection.privacy==True and collection.user != request.user:
-        return HttpResponseForbidden()
+        response = HttpResponse("<h1 style='text-allign: center;'>Oops!! You do not have permissions.</h1>")
+        response.status_code = 403
+        return response
 
     tags = []
     for ins in instance:
@@ -59,6 +61,7 @@ def collection_detail(request, slug=None, tag=None):
     context = {
         "collection_list": query_list,
         "form_board": form_board,
+        "form_edit_board": form_edit_board,
         "form_link": form_link,
         "instance": instance,
         "slug": collection.slug,
@@ -146,3 +149,25 @@ def link_add(request, slug=None):
             'id': instance.id,
             }
         return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+@login_required
+@csrf_exempt
+def collection_update(request, slug=None):
+    instance = Collection.objects.get(slug=slug)
+    if not (request.user.username == instance.user.username):
+        response = HttpResponse("<h1>Sorry, this is not your board to edit.</h1>")
+        response.status_code = 403
+        return response
+    instance.title = request.POST.get('title')
+    instance.description = request.POST.get('description')
+    instance.privacy = request.POST.get('privacy')
+    instance.save()
+    return HttpResponseRedirect(instance.get_absolute_url())
+
+
+def home(request):
+    if request.user.is_authenticated():
+        instance = Collection.objects.filter(user=request.user).first()
+        return HttpResponseRedirect(instance.get_absolute_url())
+    return render(request, 'home.html', {})

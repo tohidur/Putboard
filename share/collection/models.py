@@ -18,7 +18,7 @@ class Collection(models.Model):
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
     description = models.TextField()
-    privacy = models.BooleanField(default=True)
+    privacy = models.NullBooleanField(default=True)
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 

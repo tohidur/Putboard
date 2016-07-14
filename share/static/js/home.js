@@ -57,17 +57,15 @@ $(document).ready(function(){
 	            		title = domain;
 	            	}
 					var task = '<div id="img-'+temp+'" class="col-md-3 col-sm-6 col-xs-12">'+'<a href="'+link+'" target="_blank">'+
-						'<div class="card"><div class="img-container"><img src="https://www.gapminder.org/GapminderMedia/wp-uploads/images_loaders/ajax-loader.gif"></div>'+'<div class="details"><div class="link-title">'+title+'</div></div><div class="hosts">'+
-						'<span><object data="http://'+domain+'/favicon.ico" class="favicon-object" type="image/png"><img src="http://facebook.com/favicon.ico"></object></span><span class="host-name">'+
+						'<div class="card"><div class="img-container"><img src="'+wait+'"></div>'+'<div class="details"><div class="link-title">'+title+'</div></div><div class="hosts">'+
+						'<span><object data="http://'+domain+'/favicon.ico" class="favicon-object" type="image/png"><img src="'+favicon+'"></object></span><span class="host-name">'+
 						domain+'</span><span class="pull-right tag"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i> </span>'+
 						'</div><div class="clearfix"></div></div></a></div>'
-					console.log(task)
 					$('.card-lists').prepend(task);
 	            },
 	            success: function (data) {
-	                console.log(data.title);
-	                console.log(data.image);
-	                console.log(data.tags);
+	                $('#formLink').find('input[type=text]').val('');
+	                $('#formLink').trigger('reset');
 	                $('.card-lists #img-'+temp+' .img-container img').replaceWith('<img src="'+data.image+'">')
 	                $('.card-lists #img-'+temp+' .link-title').replaceWith('<div class="link-title">'+data.title+'</div>')
 	            },
@@ -102,14 +100,19 @@ $(document).ready(function(){
 				data: formData,
 				success: function(data) {
 					$('#search-lists').empty();
-					$.each(data, function(index){
-						console.log(data[index].fields);
-						getSearchData(data[index].fields);
-					})
+					if(data.length==0){
+						console.log('nodata');
+						$('#search-lists').prepend('<a href="" target="_blank"><div class="title">'+
+							'No Result Matches your search</div><div class="hosts mar-t-5"></div></a>');
+					} else {
+						$.each(data, function(index){
+							console.log(data[index].fields);
+							getSearchData(data[index].fields);
+						})
+					}
 				}
 			})
 		} else {
-			console.log('no data')
 			$('#search-lists').empty();
 		}
 	}
@@ -123,25 +126,23 @@ $(document).ready(function(){
 		return $('#search-lists').prepend(markup);
 	}
 
-	$('#editBoard').on('click', function(){
-		$.ajax({
-			type: 'GET',
-			url: '/'+slug+'/edit',
-			success: function(data) {
-				$('#search-lists').empty();
-				$.each(data, function(index){
-					console.log(data[index].fields);
-					getSearchData(data[index].fields);
-				})
-			}
-		})
-	})
+	// $('.edit-board').on('click', function(){
+	// 	$('#formBoard #id_title').val(board_title);
+	// 	$('#formBoard #id_description').val(board_description);
+	// 	$('#createBoard .modal-title').replaceWith('<h3>Edit Board</h3>');
+	// 	$('#createBoard .btn-add-link').replaceWith('<button type="submit" class="btn btn-lg btn-add-link">Edit</button>');
+	// 	if(board_privacy == 'True'){
+	// 		console.log('working');
+	// 		$('#id_privacy').prop('checked', true);
+	// 	}
+	// 	$("#formBoard").attr("action", "/"+slug+"/edit");
+	// 	$('#createBoard').modal('show');
+	// });
+
+	// $('#createBoard').on('hidden.bs.modal', function(){
+ //        $(this).html('');
+	// });
 
 })
-
-
-
-
-
 
 

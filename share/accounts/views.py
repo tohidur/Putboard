@@ -13,6 +13,7 @@ from django.http import HttpResponse
 
 def login_view(request):
     next_request = request.GET.get('next')
+    form_board = CollectionForm(None)
     form = UserLoginForm(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data.get('username')
@@ -26,6 +27,8 @@ def login_view(request):
         return redirect("/"+link+'/')
     if request.user.is_authenticated():
         collection = Collection.objects.filter(user=request.user)
+        if not collection:
+            return render(request, 'create_board.html', {'form': form_board})
         return redirect('/'+collection.first().slug+'/')
     return render(request, 'login.html', {'form': form})
 
@@ -48,6 +51,8 @@ def register_view(request):
 
     if request.user.is_authenticated():
         collection = Collection.objects.filter(user=request.user)
+        if not collection:
+            return render(request, 'create_board.html', {'form': form_board})
         return redirect('/'+collection.first().slug+'/')
 
     context = {
@@ -59,5 +64,5 @@ def register_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponse('<p>Working</p>')
+    return render(request, 'home.html', {})
     # return redirect('/')
