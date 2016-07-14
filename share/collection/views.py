@@ -168,6 +168,9 @@ def collection_update(request, slug=None):
 
 def home(request):
     if request.user.is_authenticated():
+        form_board = CollectionForm(None)
         instance = Collection.objects.filter(user=request.user).first()
+        if not instance:
+            return render(request, 'create_board.html', {'form': form_board})
         return HttpResponseRedirect(instance.get_absolute_url())
     return render(request, 'home.html', {})

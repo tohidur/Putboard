@@ -23,6 +23,8 @@ def login_view(request):
         if next_request:
             return redirect(next_request)
         collection = Collection.objects.filter(user=request.user)
+        if not collection:
+            return render(request, 'create_board.html', {'form': form_board})
         link = collection.first().slug
         return redirect("/"+link+'/')
     if request.user.is_authenticated():
