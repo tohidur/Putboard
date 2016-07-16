@@ -797,3 +797,12 @@
 		border-bottom: 3px solid #ff5252;
 		padding-bottom: 12px;
 	}*/
+
+	.delete{
+		background: #ff5454;
+	    color: #fff;
+	    padding: 5px 20px;
+	    margin: 10px;
+	    border-radius: 2px;
+	    display: inline-block;
+	}

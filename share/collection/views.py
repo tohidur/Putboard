@@ -174,3 +174,20 @@ def home(request):
             return render(request, 'create_board.html', {'form': form_board})
         return HttpResponseRedirect(instance.get_absolute_url())
     return render(request, 'home.html', {})
+
+@login_required
+def collection_delete(request, slug=None):
+    instance = Collection.objects.get(slug=slug)
+    if not (request.user.username == instance.user.username):
+        response = HttpResponse("<h1>Sorry, this is not your board to Delete.</h1>")
+        response.status_code = 403
+        return response
+    links = Link.objects.filter(collection=instance)
+    for link in links:
+        os.remove('.'+link.img)
+    instance.delete()
+    collection = Collection.objects.filter(user=request.user)
+    if not collection:
+        return render(request, 'create_board.html', {'form': form_board})
+    link = collection.first().slug
+    return redirect("/"+link+'/')

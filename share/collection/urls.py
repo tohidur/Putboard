@@ -4,7 +4,7 @@ from .views import (
     collection_create,
     collection_detail,
     collection_update,
-    # collection_delete,
+    collection_delete,
     link_add,
     search_link,
     home,
@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^(?P<slug>[\w-]+)(?:/(?P<tag>[\w-]+))?/$', collection_detail, name='detail'),
     url(r'^(?P<slug>[\w-]+)/search$', search_link, name="search_link"),
     url(r'^(?P<slug>[\w-]+)/edit$', collection_update, name='update'),
+    url(r'^(?P<slug>[\w-]+)/delete$', collection_delete, name='delete'),
     url(r'^$', home, name='home'),
     # url(r'^(?P<slug>[\w-]+)/delete$', collection_delete, name='collection_delete'),
 ]
