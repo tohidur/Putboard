@@ -472,8 +472,8 @@
 	.card .details {
 		background: #fff;
     	padding: 10px 15px;
-    	min-height: 70px;
-    	max-height: 70px;
+    	min-height: 60px;
+    	max-height: 60px;
     	overflow: hidden;
 	}
 	.card .details .link-title{

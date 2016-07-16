@@ -66,6 +66,7 @@ $(document).ready(function(){
 	            success: function (data) {
 	                $('#formLink').find('input[type=text]').val('');
 	                $('#formLink').trigger('reset');
+			$('.selectmultiple').select2('data', null);
 	                $('.card-lists #img-'+temp+' .img-container img').replaceWith('<img src="'+data.image+'">')
 	                $('.card-lists #img-'+temp+' .link-title').replaceWith('<div class="link-title">'+data.title+'</div>')
 	            },
