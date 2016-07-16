@@ -41,9 +41,11 @@
 
 <body>
 {%if request.user.is_authenticated%}
-<div class="fixed-button">
-	<a href="#" data-toggle="modal" data-target="#addLink"> + </a>
-</div>
+	{% if collection.user == request.user %}
+		<div class="fixed-button">
+			<a href="#" data-toggle="modal" data-target="#addLink"> + </a>
+		</div>
+	{% endif %}
 {%endif%}
 
 <!-- Create Board Modal -->
