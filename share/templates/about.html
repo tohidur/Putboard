@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Online bootcamp to start your software career full time or partime ">
-    <meta name="author" content="">
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-    <title>Putboard</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
-    <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
-    <link href="css/home.css" rel="stylesheet">
-	<style>
-		
-	</style>
-</head>
-<body>
+{% block content %}
 <!-- Create Board Modal -->
 <div class="modal fade" id="createBoard" tabindex="-1" role="dialog" aria-labelledby="createBoardLabel">
   <div class="modal-dialog add-link-dialog" role="document">
@@ -31,7 +16,7 @@
   </div>
 </div>
 
-<nav class="navbar navbar-default navbar navbar-home navbar-fixed-top header topnav" role="navigation">
+<!-- <nav class="navbar navbar-default navbar navbar-home navbar-fixed-top header topnav" role="navigation">
     <div class="navbar-header">
          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
               <span class="sr-only">Toggle navigation</span>
@@ -39,7 +24,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
          </button>
-        <a class="#" href="#"> <img src="img/logo_w.png" class="logo" alt="logo"></a>
+        <a class="#" href="#"> <img src="{% static 'img/logo_w.png' %}" class="logo" alt="logo"></a>
      </div>
      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         	<div class="">
@@ -51,7 +36,7 @@
              </div>
   	</div>
   	<div class="clearfix"></div>
-</nav>
+</nav> -->
   <!-- Section Home -->
 <section class="intro-header pos-rel">
     <div class="container">
@@ -71,7 +56,7 @@
 	<div class="col-md-8 col-sm-10 col-xs-12 align-center">
 		<div class="team-card col-md-6 col-sm-6 col-xs-12">
 			<div class="img-container">
-				<img src="img/tohidur.png" class="img-responsive" alt="Tohidur Rahaman Backend Developer">
+				<img src="{% static 'img/tohidur.png' %}" class="img-responsive" alt="Tohidur Rahaman Backend Developer">
 			</div>
 			<div class="info">
 				<h3 class="name"> Tohidur Rahaman </h3>
@@ -89,7 +74,7 @@
 		</div>
 		<div class="team-card col-md-6 col-sm-6 col-xs-12">
 			<div class="img-container">
-				<img src="img/sushant.png" class="img-responsive" alt="Sushant Kumar, Freelance Designer and Developer">
+				<img src="{% static 'img/sushant.png' %}" class="img-responsive" alt="Sushant Kumar, Freelance Designer and Developer">
 			</div>
 			<div class="info">
 				<h3 class="name"> Sushant Kumar </h3>
@@ -114,33 +99,13 @@
 	<div class="container">
 		<ul class="footer-links">
 			<li class="left"> &copy; Putboard | 2016 </li>
-			<li class="left"> <a href="about.html"> About </a> </li>
-			<li class="left"> <a href="about.html"> Terms of Service </a> </li>
-			<li class="left"> <a href="about.html"> Privacy </a> </li>
-			<li class="right"> <a href="about.html"> <i class="fa fa-facebook"></i> </a> </li>
-			<li class="right"> <a href="about.html"> <i class="fa fa-twitter"></i> </a> </li>
-			<li class="right"> <a href="about.html"> <i class="fa fa-linkedin"></i> </a> </li>
+			<li class="left"> <a href="/about"> About </a> </li>
+			<li class="left"> <a href=""> Terms of Service </a> </li>
+			<li class="left"> <a href=""> Privacy </a> </li>
+			<li class="right"> <a href=""> <i class="fa fa-facebook"></i> </a> </li>
+			<li class="right"> <a href=""> <i class="fa fa-twitter"></i> </a> </li>
+			<li class="right"> <a href=""> <i class="fa fa-linkedin"></i> </a> </li>
 		</ul>
 	</div>
 </footer>
-</body>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function(){
-	$('ul.tabs li').click(function(){
-		var tab_id = $(this).attr('data-tab');
-
-		$('ul.tabs li').removeClass('current');
-		$('.tab-content').removeClass('current');
-
-		$(this).addClass('current');
-		$("#"+tab_id).addClass('current');
-
-		if($('ul.tabs li').hasClass('.current')) {
-			console.log("Working");
-		}
-	});
-});
-</script>
-</html>
+{% endblock content %}
