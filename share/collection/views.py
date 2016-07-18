@@ -175,6 +175,10 @@ def home(request):
         return HttpResponseRedirect(instance.get_absolute_url())
     return render(request, 'home.html', {})
 
+
+def about(request):
+    return render(request, 'about.html', {})
+
 @login_required
 def collection_delete(request, slug=None):
     instance = Collection.objects.get(slug=slug)
