@@ -737,6 +737,70 @@
 		color:#fff;
 	}
 
+/*=== About Page ====*/
+.team-card {
+	position: relative;
+    height: 300px;
+    margin: 10% auto;
+    padding: 10px 20px;
+    color: #777;
+}
+.team-card .img-container {
+    position: absolute;
+    top: -26%;
+    width: 50%;
+    left: 25%;
+    z-index: 9;
+}
+.team-card .img-container img {
+	max-width: 100%;
+}
+.team-card .info {
+	position: relative;
+	padding: 45% 30px 50px;
+    background: #fff;
+    text-align:center;
+    border: 1px solid #e6e6e6;
+    color: #444;
+    font-family: 'Lato','Helvetica','sans-serif';
+}
+.team-card .info .details {
+	padding:10%;
+}
+.team-card .info .name {
+	font-weight: bold;
+}
+.team-card .info .footer-links {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	padding: 8px;
+	background: #444;
+}
+
+/*=== Home page testimonials ===*/
+.reviews .team-card {
+	padding:10px;
+}
+
+.footer-links ul.profile-links {
+	margin-bottom: 0;
+}
+
+.footer-links ul.profile-links li a {
+	color: #fff;
+}
+
+
+@media (max-width: 900px) {
+	.team-card {
+		width:70%;
+		margin:15% auto 30%;
+		float:none;
+	}
+}
 @media (max-width: 600px) {
 	.feature-content, .feature-img {
 	    padding: 30px;
@@ -747,6 +811,10 @@
 	.feature-content .details {
 		padding-left:0;
 	}
+    .team-card {
+		width:80%;
+		margin:30% auto 10%;
+	}   
 }
 
 @media (max-width: 460px) {
