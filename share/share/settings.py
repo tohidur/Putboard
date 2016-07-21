@@ -83,7 +83,11 @@ WSGI_APPLICATION = 'share.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+<<<<<<< HEAD
         'NAME': 'putboard_db',
+=======
+	    'NAME': 'putboard_db',
+>>>>>>> dev
         'USER': 'root',
         'PASSWORD': 'putboard@165',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
