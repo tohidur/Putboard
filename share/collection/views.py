@@ -129,11 +129,11 @@ def link_add(request, slug=None):
             domain=domain,
             collection=collection,
         )
-        driver.save_screenshot("/home/ubuntu/dev_rawlink/media_cdn/images/" + img_name + '.png')
-        im = Image.open("/home/ubuntu/dev_rawlink/media_cdn/images/" + img_name + '.png')
+        driver.save_screenshot("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
+        im = Image.open("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
         im = im.crop((0,0,1000,1000))
         im = im.resize((300, 300), Image.ANTIALIAS)
-        im.save("/home/ubuntu/dev_rawlink/media_cdn/images/" + img_name + '.png')
+        im.save("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
         
         tags = request.POST.getlist('tags[]')
         for tag in tags:
@@ -174,6 +174,10 @@ def home(request):
             return render(request, 'create_board.html', {'form': form_board})
         return HttpResponseRedirect(instance.get_absolute_url())
     return render(request, 'home.html', {})
+
+
+def about(request):
+    return render(request, 'about.html', {})
 
 @login_required
 def collection_delete(request, slug=None):

@@ -8,6 +8,7 @@ from .views import (
     link_add,
     search_link,
     home,
+    about,
     # likn_delete,
 )
 
@@ -20,5 +21,6 @@ urlpatterns = [
     url(r'^(?P<slug>[\w-]+)/edit$', collection_update, name='update'),
     url(r'^(?P<slug>[\w-]+)/delete$', collection_delete, name='delete'),
     url(r'^$', home, name='home'),
+    url(r'^about$', about, name='about'),
     # url(r'^(?P<slug>[\w-]+)/delete$', collection_delete, name='collection_delete'),
 ]
