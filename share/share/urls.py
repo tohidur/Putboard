@@ -24,6 +24,10 @@ urlpatterns = [
     url(r'^login/', login_view, name="login"),
     url(r'^register/', register_view, name="register"),
     url(r'^logout/', logout_view, name="logout"),
+    url(r'^resetpassword/passwordsent/$', 'django.contrib.auth.views.password_reset_done', name='password_reset_done'),
+    url(r'^resetpassword/$', 'django.contrib.auth.views.password_reset', name='password_reset'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', name='password_reset_confirm'),
+    url(r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete', name='password_reset_complete'),
     url(r'^', include("collection.urls", namespace="collection"))
 ]
 
