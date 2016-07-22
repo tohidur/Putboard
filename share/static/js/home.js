@@ -44,7 +44,7 @@ $(document).ready(function(){
 		 	var prefix = 'http';
 			if (link.substr(0, prefix.length) !== prefix)
 			{
-			    s = 'http://' + s;
+			    link = 'http://' + link;
 			}
 	        var formData = {
 	            'title': title,
