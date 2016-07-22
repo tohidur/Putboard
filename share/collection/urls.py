@@ -9,7 +9,7 @@ from .views import (
     search_link,
     home,
     about,
-    # likn_delete,
+    link_delete,
 )
 
 urlpatterns = [
@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^(?P<slug>[\w-]+)/delete$', collection_delete, name='delete'),
     url(r'^$', home, name='home'),
     url(r'^about$', about, name='about'),
+    url(r'^link/(?P<id>\d+)/delete$', link_delete, name='link_delete' ),
     # url(r'^(?P<slug>[\w-]+)/delete$', collection_delete, name='collection_delete'),
 ]
