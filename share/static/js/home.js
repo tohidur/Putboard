@@ -41,7 +41,11 @@ $(document).ready(function(){
 		 	    domain = link.split('/')[0];
 		 	}
 		 	domain = domain.split(':')[0];
-		 	console.log(domain);
+		 	var prefix = 'http';
+			if (link.substr(0, prefix.length) !== prefix)
+			{
+			    link = 'http://' + link;
+			}
 	        var formData = {
 	            'title': title,
 	            'link': link,
@@ -132,7 +136,7 @@ $(document).ready(function(){
 		$('#deleteModal').modal('show');
 	})
 
-	$('.card .img-container .fa').click(function(e){
+	$('.card .img-container .fa').on('click', function(e){
 		e.preventDefault();
 		var id = $(this).find('input[type=hidden]').val();
 		$('#deleteModal .delete-link a').attr('href', "/link/"+id+"/delete");
