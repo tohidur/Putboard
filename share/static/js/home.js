@@ -127,23 +127,21 @@ $(document).ready(function(){
 		return $('#search-lists').prepend(markup);
 	}
 
-	// $('.edit-board').on('click', function(){
-	// 	$('#formBoard #id_title').val(board_title);
-	// 	$('#formBoard #id_description').val(board_description);
-	// 	$('#createBoard .modal-title').replaceWith('<h3>Edit Board</h3>');
-	// 	$('#createBoard .btn-add-link').replaceWith('<button type="submit" class="btn btn-lg btn-add-link">Edit</button>');
-	// 	if(board_privacy == 'True'){
-	// 		console.log('working');
-	// 		$('#id_privacy').prop('checked', true);
-	// 	}
-	// 	$("#formBoard").attr("action", "/"+slug+"/edit");
-	// 	$('#createBoard').modal('show');
-	// });
+	$('#editBoard .delete').on('click', function(){
+		$('#deleteModal .delete-link a').attr('href','/'+slug+'/delete')
+		$('#deleteModal').modal('show');
+	})
 
-	// $('#createBoard').on('hidden.bs.modal', function(){
- //        $(this).html('');
-	// });
+	$('.card .img-container').click(function(e){
+		e.preventDefault();
+		var id = $(this).find('input[type=hidden]').val();
+		$('#deleteModal .delete-link a').attr('href', "/link/"+id+"/delete");
+		$('#deleteModal').modal('show');
+	})
 
+	$('#deleteModal').on('hidden.bs.modal', function () {
+        $('#deleteModal .delete-link a').attr('href','')
+	})
 })
 
 

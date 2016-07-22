@@ -195,3 +195,16 @@ def collection_delete(request, slug=None):
         return render(request, 'create_board.html', {'form': form_board})
     link = collection.first().slug
     return redirect("/"+link+'/')
+
+
+@login_required
+def link_delete(request, id=None):
+    # print id
+    instance = get_object_or_404(Link, id=id)
+    collection = instance.collection
+    # print instance.img
+    # print collection
+    if os.path.exists("/home/ubuntu/putboard/media_cdn/images/" + instance.img):
+        os.remove("/home/ubuntu/putboard/media_cdn/images/" + instance.img)
+    instance.delete()
+    return HttpResponseRedirect(collection.get_absolute_url())
