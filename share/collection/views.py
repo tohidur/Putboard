@@ -204,6 +204,7 @@ def link_delete(request, id=None):
     collection = instance.collection
     # print instance.img
     # print collection
-    os.remove("/home/ubuntu/putboard/media_cdn/images/" + instance.img)
+    if os.path.exists("/home/ubuntu/putboard/media_cdn/images/" + instance.img):
+        os.remove("/home/ubuntu/putboard/media_cdn/images/" + instance.img)
     instance.delete()
     return HttpResponseRedirect(collection.get_absolute_url())
