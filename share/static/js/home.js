@@ -132,7 +132,7 @@ $(document).ready(function(){
 		$('#deleteModal').modal('show');
 	})
 
-	$('.card .img-container').click(function(e){
+	$('.card .img-container .fa').click(function(e){
 		e.preventDefault();
 		var id = $(this).find('input[type=hidden]').val();
 		$('#deleteModal .delete-link a').attr('href', "/link/"+id+"/delete");
