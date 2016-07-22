@@ -57,7 +57,7 @@ $(document).ready(function(){
 	            		title = domain;
 	            	}
 					var task = '<div id="img-'+temp+'" class="col-md-3 col-sm-6 col-xs-12">'+'<a href="'+link+'" target="_blank">'+
-						'<div class="card"><div class="img-container"><img src="'+wait+'"></div>'+'<div class="details"><div class="link-title">'+title+'</div></div><div class="hosts">'+
+						'<div class="card"><div class="img-container"><i class="fa fa-trash fa-2x pull-right" aria-hidden="true"><input type="hidden" value=""></i><img src="'+wait+'"></div>'+'<div class="details"><div class="link-title">'+title+'</div></div><div class="hosts">'+
 						'<span><object data="http://'+domain+'/favicon.ico" class="favicon-object" type="image/png"><img src="'+favicon+'"></object></span><span class="host-name">'+
 						domain+'</span><span class="pull-right tag"> <i class="fa fa-tag mar-r-5" aria-hidden="true"></i> </span>'+
 						'</div><div class="clearfix"></div></div></a></div>'
@@ -69,6 +69,7 @@ $(document).ready(function(){
 			$('.selectmultiple').select2('data', null);
 	                $('.card-lists #img-'+temp+' .img-container img').replaceWith('<img src="/media/images/'+data.image+'">')
 	                $('.card-lists #img-'+temp+' .link-title').replaceWith('<div class="link-title">'+data.title+'</div>')
+	                $('.card-lists #img-'+temp+' .img-container').find('input[type=hidden]').val() = data.id;
 	            },
 	        })
 		 }
