@@ -87,8 +87,8 @@ $(document).ready(function(){
 	})();
 
 	$('#searchForm .input-search').keyup(function (e) {
-		if(e.which === 13){
-        	return false;
+		if(e.keyCode === 13){
+        	e.preventDefault();
     	}
 		delay(function(){
 			var newContent = $(this.target).val()
