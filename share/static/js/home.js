@@ -87,7 +87,9 @@ $(document).ready(function(){
 	})();
 
 	$('#searchForm .input-search').keyup(function (e) {
-		e.preventDefault();
+		if(e.which === 13){
+        	return false;
+    	}
 		delay(function(){
 			var newContent = $(this.target).val()
 			searchLink(newContent)
