@@ -139,9 +139,13 @@ def link_add(request, slug=None):
         for tag in tags:
             tag = tag.replace(" ", "_")
             print tag
-            if(get_object_or_404(Tag, id=tag)):
-                print get_object_or_404(Tag, id=tag)
-            # print tag
+            try:
+                tag = get_object_or_404(Tag, id=tag)
+                print 'okay'
+            except:
+                print 'catch'
+                pass
+            print tag
             x, created = Tag.objects.get_or_create(name = tag)
             instance.tags.add(x)
         
