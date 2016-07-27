@@ -100,7 +100,6 @@ def link_add(request, slug=None):
 
     """
     collection = get_object_or_404(Collection, slug=slug)
-    print ('Working')
     if request.POST:
         link = request.POST.get('link')
         if not(link.startswith('http://') or link.startswith('https://')):
@@ -138,14 +137,10 @@ def link_add(request, slug=None):
         tags = request.POST.getlist('tags[]')
         for tag in tags:
             tag = tag.replace(" ", "_")
-            print tag
             try:
                 tag = get_object_or_404(Tag, id=tag)
-                print 'okay'
             except:
-                print 'catch'
                 pass
-            print tag
             x, created = Tag.objects.get_or_create(name = tag)
             instance.tags.add(x)
         
