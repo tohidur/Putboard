@@ -19,7 +19,7 @@ class CollectionForm(forms.ModelForm):
 class LinkForm(forms.ModelForm):
     title = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Title (Optional)'}))
     link = forms.URLField(label="", widget=forms.TextInput(attrs={'placeholder': 'http://'}), required=True)
-    tags = forms.ModelMultipleChoiceField(label="", queryset=Tag.objects.values('name'))
+    tags = forms.ModelMultipleChoiceField(label="", queryset=Tag.objects.values_list('name', 'name'))
     class Meta:
         model = Link
         fields = [
