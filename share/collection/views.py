@@ -137,6 +137,7 @@ def link_add(request, slug=None):
         
         tags = request.POST.getlist('tags[]')
         for tag in tags:
+            tag.replace(" ", "_")
             x, created = Tag.objects.get_or_create(name = tag)
             instance.tags.add(x)
         
