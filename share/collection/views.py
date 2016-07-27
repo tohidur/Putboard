@@ -139,11 +139,6 @@ def link_add(request, slug=None):
         for tag in tags:
             tag = tag.replace(" ", "_")
             print tag
-            q = Tag.objects.get(id=tag)
-            q = q.name
-            print q
-            if q:
-                tag = q
             x, created = Tag.objects.get_or_create(name = tag)
             instance.tags.add(x)
         
