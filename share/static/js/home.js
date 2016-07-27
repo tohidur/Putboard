@@ -86,7 +86,8 @@ $(document).ready(function(){
 	  };
 	})();
 
-	$('#searchForm .input-search').keyup(function () {
+	$('#searchForm .input-search').keyup(function (e) {
+		e.preventDefault();
 		delay(function(){
 			var newContent = $(this.target).val()
 			searchLink(newContent)
