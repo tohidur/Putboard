@@ -494,8 +494,10 @@
 
 	.card .hosts {
 		background: #fdfdfd;
-    	padding: 7px 25px;
-   	 	border-top: 1px solid #f1f1f1;
+		padding: 7px 25px;
+		border-top: 1px solid #f1f1f1;
+		max-height: 34px;
+		overflow: hidden;
 	}
 	.favicon-object {
 		height:12px;
