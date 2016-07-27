@@ -879,7 +879,8 @@
 	.card .img-container .fa {
 		position: absolute;
 		right: 5px;
-		color: royalblue;
+		color: #636363;
+		font-size: 1.5em;
 		display: none;
 	}
 
