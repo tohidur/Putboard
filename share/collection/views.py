@@ -130,7 +130,6 @@ def link_add(request, slug=None):
             domain=domain,
             collection=collection,
         )
-        print 'instance'+instance
         driver.save_screenshot("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
         im = Image.open("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
         im = im.crop((0,0,1000,1000))
