@@ -138,7 +138,7 @@ def link_add(request, slug=None):
         for tag in tags:
             tag = tag.replace(" ", "_")
             try:
-                tag = get_object_or_404(Tag, id=tag)
+                tag = Tag.objects.get(id=tag)
             except:
                 pass
             x, created = Tag.objects.get_or_create(name = tag)
