@@ -70,9 +70,19 @@ $(document).ready(function(){
 	            success: function (data) {
 	                $('#formLink').find('input[type=text]').val('');
 	                $('#formLink').trigger('reset');
-			$('.selectmultiple').select2('data', null);
+					$('.selectmultiple').select2('data', null);
 	                $('.card-lists #img-'+temp+' .img-container img').replaceWith('<img src="/media/images/'+data.image+'">')
 	                $('.card-lists #img-'+temp+' .link-title').replaceWith('<div class="link-title">'+data.title+'</div>')
+	                console.log(data.tags);
+	                $('.section-tags .tags li').each(function(i, li) {
+						var product = $(li);
+						console.log(product);
+						for(i=0;i<data.tags.length;i++){
+							if (data.tags[i]!=product) {
+		                		$('.section-tags .tags').append('<li><a href="/'+slug+'/'+data.tag[i]+'"> {{tag.name}} </a> </li>')
+	            			}
+	            		}
+	            	});
 	            },
 	        })
 		 }
