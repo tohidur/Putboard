@@ -139,6 +139,10 @@ def link_add(request, slug=None):
         tags = request.POST.getlist('tags[]')
         for tag in tags:
             tag = tag.replace(" ", "_")
+            try:
+                tag = get_object_or_404(Tag, id=tag)
+            except:
+                pass
             x, created = Tag.objects.get_or_create(name = tag)
             instance.tags.add(x)
         print 'tags'
