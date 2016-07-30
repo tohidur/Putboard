@@ -29,7 +29,6 @@ $(document).ready(function(){
 		 	var title = $('#formLink #id_title').val();
 		 	var tags = [];
 		 	tags = $('#formLink #id_tags').val();
-		 	console.log(tags);
 		 	var domain;
 		 	if (link.indexOf("://") > -1) {
 		 	    domain = link.split('/')[2];
@@ -51,7 +50,6 @@ $(document).ready(function(){
 	            'link': link,
 	            'tags': tags,
 	        };
-	        console.log(formData);
 	        $.ajax({
 	            type: 'POST',
 	            url: '/'+slug+'/add',
@@ -73,16 +71,22 @@ $(document).ready(function(){
 					$('.selectmultiple').select2('data', null);
 	                $('.card-lists #img-'+temp+' .img-container img').replaceWith('<img src="/media/images/'+data.image+'">')
 	                $('.card-lists #img-'+temp+' .link-title').replaceWith('<div class="link-title">'+data.title+'</div>')
-	                console.log(data.tags);
-	                $('.section-tags .tags li').each(function(i, li) {
-						var product = $(li);
-						console.log(product);
-						for(i=0;i<data.tags.length;i++){
-							if (data.tags[i]!=product) {
-		                		$('.section-tags .tags').append('<li><a href="/'+slug+'/'+data.tag[i]+'"> {{tag.name}} </a> </li>')
-	            			}
+	                if(data.tags.length > 0){
+	                	var tag_list = '';
+	                	var x = 0;
+	    				for(i=0;i<data.tags.length;i++){
+			                $('.section-tags .tags li').each(function(){
+								if( data.tags[i].trim() === $(this).text().trim()) {
+									x = 1;
+		            			}
+			            	});
+			            	if (x != 1){
+			            		tag_list += '<li><a href="/'+slug+'/'+data.tags[i]+'">'+data.tags[i]+'</a> </li>'
+			            	}
+			            	x = 0;
 	            		}
-	            	});
+	            		$('.section-tags .tags').append(tag_list);
+            		}
 	            },
 	        })
 		 }

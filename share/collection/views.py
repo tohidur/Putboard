@@ -100,29 +100,26 @@ def link_add(request, slug=None):
 
     """
     collection = get_object_or_404(Collection, slug=slug)
-    print ('Working')
     if request.POST:
         link = request.POST.get('link')
         if not(link.startswith('http://') or link.startswith('https://')):
             link = 'http://'+link
-        print link
+        
         driver = webdriver.PhantomJS(service_args=['--ignore-ssl-errors=true','--ssl-protocol=any'])
         driver.set_window_position(0, 0)
         driver.set_window_size(1024, 720)
         driver.get(link)
-        print 'working'
+
         title = request.POST.get('title')
         if not title:
             title = driver.title.encode("utf-8")
-        print title
         img_id = Link.objects.first()
         img_name = str(img_id.id + 1)
         img = img_name + ".png"
-        print img
         domain = '{uri.netloc}'.format(uri=urlparse(link))
         if domain.startswith('www'):
             domain = domain[4:]
-        print domain
+        
         instance = Link.objects.create(
             title=title,
             link=link,
@@ -131,11 +128,12 @@ def link_add(request, slug=None):
             collection=collection,
         )
         driver.save_screenshot("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
+        driver.quit();
         im = Image.open("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
         im = im.crop((0,0,1000,1000))
         im = im.resize((300, 300), Image.ANTIALIAS)
         im.save("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
-        print 'working'
+        tags_response = []
         tags = request.POST.getlist('tags[]')
         for tag in tags:
             tag = tag.replace(" ", "_")
@@ -144,12 +142,12 @@ def link_add(request, slug=None):
             except:
                 pass
             x, created = Tag.objects.get_or_create(name = tag)
+            tags_response.append(str(x))
             instance.tags.add(x)
-        print 'tags'
         data = {
             'link': link,
             'title': title,
-            'tags': tags,
+            'tags': tags_response,
             'image': img,
             'domain': domain,
             'id': instance.id,
@@ -205,11 +203,8 @@ def collection_delete(request, slug=None):
 
 @login_required
 def link_delete(request, id=None):
-    # print id
     instance = get_object_or_404(Link, id=id)
     collection = instance.collection
-    # print instance.img
-    # print collection
     if os.path.exists("/home/ubuntu/putboard/media_cdn/images/" + instance.img):
         os.remove("/home/ubuntu/putboard/media_cdn/images/" + instance.img)
     instance.delete()
