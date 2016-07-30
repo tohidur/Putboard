@@ -69,7 +69,7 @@ $(document).ready(function(){
 	                $('#formLink').find('input[type=text]').val('');
 	                $('#formLink').trigger('reset');
 					$('.selectmultiple').select2('data', null);
-	                $('.card-lists #img-'+temp+' .img-container img').replaceWith('<img src="/media/images/'+data.image+'">')
+	                $('.card-lists #img-'+temp+' .img-container img').replaceWith('<i class="fa fa-trash fa-2x pull-right" aria-hidden="true"><input type="hidden" value="'+data.id+'"></i><img src="/media/images/'+data.image+'">')
 	                $('.card-lists #img-'+temp+' .link-title').replaceWith('<div class="link-title">'+data.title+'</div>')
 	                if(data.tags.length > 0){
 	                	var tag_list = '';
@@ -157,7 +157,7 @@ $(document).ready(function(){
 		$('#deleteModal').modal('show');
 	})
 
-	$('.card .img-container .fa').on('click', function(e){
+	$('.card-lists ').on('click', '.card .img-container .fa',function(e){
 		e.preventDefault();
 		var id = $(this).find('input[type=hidden]').val();
 		$('#deleteModal .delete-link a').attr('href', "/link/"+id+"/delete");
