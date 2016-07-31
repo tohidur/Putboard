@@ -127,12 +127,12 @@ def link_add(request, slug=None):
             domain=domain,
             collection=collection,
         )
-        driver.save_screenshot("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
+        driver.save_screenshot("/home/ubuntu/main/media_cdn/images/" + img_name + '.png')
         driver.quit();
-        im = Image.open("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
+        im = Image.open("/home/ubuntu/main/media_cdn/images/" + img_name + '.png')
         im = im.crop((0,0,1000,1000))
         im = im.resize((300, 300), Image.ANTIALIAS)
-        im.save("/home/ubuntu/putboard/media_cdn/images/" + img_name + '.png')
+        im.save("/home/ubuntu/main/media_cdn/images/" + img_name + '.png')
         tags_response = []
         tags = request.POST.getlist('tags[]')
         for tag in tags:
@@ -192,7 +192,8 @@ def collection_delete(request, slug=None):
         return response
     links = Link.objects.filter(collection=instance)
     for link in links:
-        os.remove('.'+link.img)
+        if os.path.exists("/home/ubuntu/main/media_cdn/images/" + link.img):
+            os.remove("/home/ubuntu/main/media_cdn/images/" + link.img)
     instance.delete()
     collection = Collection.objects.filter(user=request.user)
     if not collection:
@@ -205,7 +206,7 @@ def collection_delete(request, slug=None):
 def link_delete(request, id=None):
     instance = get_object_or_404(Link, id=id)
     collection = instance.collection
-    if os.path.exists("/home/ubuntu/putboard/media_cdn/images/" + instance.img):
-        os.remove("/home/ubuntu/putboard/media_cdn/images/" + instance.img)
+    if os.path.exists("/home/ubuntu/main/media_cdn/images/" + instance.img):
+        os.remove("/home/ubuntu/main/media_cdn/images/" + instance.img)
     instance.delete()
     return HttpResponseRedirect(collection.get_absolute_url())
