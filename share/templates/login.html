@@ -1,0 +1,38 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online bootcamp to start your software career full time or partime ">
+    <meta name="author" content="">
+    <meta name="twitter:image:src" content="https://www.dreamteamfc.com/c/s3/dreamteamfc-prod/uploads/2016/06/Lionel-Messi.jpg">
+    <meta name="twitter:domain" content="YourDomain.com">
+
+    <title>Putboard</title>
+    <link href="{% static "css/bootstrap.min.css"%}" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
+    <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+    <link href="{% static "css/select2.min.css"%}" rel="stylesheet">
+    <link href="{% static "css/home.css"%}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container disp-table">
+        <div class="user-login mar-t-50 align-center">
+            <h2 class="form-title"> Log in </h2>
+            <form action="" method="POST" class="login-form bg-white">{% csrf_token %}
+                {{form|crispy}}
+                <button type="submit" class="btn btn-lg btn-add-link btn-submit">
+                 Log in
+                </button>
+                <label for="signup"> Not Registered yet ? <a href="signup.html"> Signup </a>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>
