@@ -2,3 +2,9 @@ general:
   branches:
     only:
       - dev
+machine:
+  python:
+    version: 2.7.5
+test:
+  override:
+    - python ./share/manage.py test
