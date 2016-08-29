@@ -35,7 +35,8 @@ class AdminTestCase(LiveServerTestCase):
         )
 
 		chromedriver = "C:\Users\Rahaman\Desktop\chrome_d\chromedriver"
-		self.selenium = webdriver.Chrome(chromedriver)
+		# self.selenium = webdriver.Chrome(chromedriver)
+		self.selenium = webdriver.Firefox()
 		self.selenium.maximize_window()
 		super(AdminTestCase, self).setUp()
 
