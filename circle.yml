@@ -7,4 +7,4 @@ machine:
     version: 2.7.5
 test:
   override:
-    - ./share/manage.py test
+    - python ./share/manage.py test
